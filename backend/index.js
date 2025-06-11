@@ -40,7 +40,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/signin", async (req, res) => {
+app.post("/login", async (req, res) => {
   console.log(req.body);
   try {
     const { username, password } = req.body;

@@ -1,51 +1,28 @@
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #212121;
-    border-bottom: solid grey 0.1px;
-    color: white;
+.topHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.header-left {
+    display: flex;
     align-items: center;
-    z-index: 1000;
 }
-.logo{
-    padding-right: 50px;
-    width: 50px;
-    height: 50px;
-}
-.title {
-    font-family: "Big Shoulders Stencil Text", sans-serif;  
-    font-size: 50px;
-    font-weight: bolder; 
-    flex: 1;
-    padding-left: 75px;
+.profilePicContainer {
+  margin-left: auto;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
-.search-bar {
-    display: flex; 
-    align-items: center; 
-}
-.search-bar input {
-    padding: 8px;
-    border: 1px solid white;
-    border-radius: 8px;
-    width: 200px;
-    margin-right: 10px; 
+.profilePicContainer:hover {
+  transform: scale(1.05);
 }
 
-.a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px; /* Adjust margin as needed */
-    padding: 5px 10px; /* Adjust padding as needed */
-    border-radius: 5px; /* Add rounded corners */
-    transition: background-color 0.3s ease; /* Smooth transition */
+.profilePic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #FFB22C;
 }
-
-.header a:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Light background color on hover */
-}
-

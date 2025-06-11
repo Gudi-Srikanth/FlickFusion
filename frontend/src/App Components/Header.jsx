@@ -1,23 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import './Header.css';
-import SearchIcon from '@mui/icons-material/Search';
 
-function Header() {
-    return (
-        <header>
-        <div className="header">
-            <h1 className="title"><img className="logo" src="/logo.jpg" alt="logo"></img>  FlickFusion</h1>
-            <Link className="a" to="/">HOME</Link>
-            <Link className="a" to="/signin">SIGN IN</Link>
-            <Link className="a" to="/signup">SIGN UP</Link>
-            <div className="search-bar">
-                <input type="text" placeholder='Find Movies'/>
-                <SearchIcon style={{ marginLeft: '5px', color: 'white' }} />
-            </div>
+const Header = () => {
+  const { user } = useAuth();
+
+  const handlePfpClick = () => {
+    if (user) {
+      // open dropdown/modal in future
+      console.log('Open profile menu');
+    }
+  };
+
+  return (
+    <header className="topHeader">
+      <div className="header-left">
+        <img className="logo" src="/logo.jpg" alt="logo" />
+        <h1 className="title">FlickFusion</h1>
+      </div>
+      {user && (
+        <div className="profilePicContainer" onClick={handlePfpClick}>
+          <img
+            src={'/defaultPfp.jpg'} 
+            alt="Profile"
+            className="profilePic"
+          />
         </div>
-        </header>
-    );
-}
+      )}
+    </header>
+  );
+};
 
 export default Header;

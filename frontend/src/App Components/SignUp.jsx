@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios"; // Import axios
 import './SignUp.css';
+import Footer from "./Footer"
+import Header from "./Header";
 
 function SignUp(){
     const [username, setUsername] = useState('');
@@ -25,22 +27,48 @@ function SignUp(){
             console.error('Error signing up:', error);
         }
     };
-    return (
+     return (
         <div className="signUpContainer">
-            <h2 className="signInTitle">CREATE ACCOUNT</h2>
-            <form className="signUpForm" onSubmit={handleSubmit}>
-                <div className="formGroup">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username" />
-                </div>
-                <div className="formGroup">
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
-                </div>
-                <button type="submit" className="signUpButton">Sign Up</button>
-            </form>
+            <Header />
+
+            <div className="signUpCard">
+                <h2 className="signUpTitle">Create Account</h2>
+                <form className="signUpForm" onSubmit={handleSubmit}>
+                    <div className="formGroup">
+                        <label className="signUpLabels" htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter your display name"
+                        />
+                    </div>
+                    <div className="formGroup">
+                        <label className="signUpLabels" htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter your username"
+                        />
+                    </div>
+                    <div className="formGroup">
+                        <label className="signUpLabels" htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password"
+                        />
+                    </div>
+                    <button type="submit" className="signUpButton">Sign Up</button>
+                </form>
+            </div>
+            <Footer />
         </div>
     );
 }
-
 export default SignUp;
