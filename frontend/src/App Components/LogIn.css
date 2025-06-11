@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text&family=Inter:wght@400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+}
+
+.logInContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #000;
+    color: #fff;
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+}
+
+.title {
+    font-family: "Big Shoulders Stencil Text", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #FFB22C;
+}
+
+.logInCard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logInForm {
+    width: 350px;
+    padding: 24px 36px;
+    background-color: #000;
+    border-radius: 5px;
+    border: 0.1px solid #FFB22C;
+    box-shadow: 0 4px 14px rgba(255, 178, 44, 0.25);
+    animation: fadeInUp 0.4s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.logInTitle {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #FFB22C;
+    text-align: center;
+    font-weight: 600;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.loginLabels {
+    display: block;
+    margin-bottom: 6px;
+    color: #FFB22C;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 0.1px solid #F7F7F7;
+    border-radius: 6px;
+    background-color: #000;
+    color: #F7F7F7;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #FFB22C;
+    outline: none;
+    box-shadow: 0 0 5px #FFB22C80;
+}
+
+input::placeholder {
+    color: #ccc;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #000 inset !important;
+    -webkit-text-fill-color: #F7F7F7 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.logInButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #FFB22C;
+    color: #232f3e;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.logInButton:hover {
+    background-color: #000;
+    color: #FFB22C;
+    border: 1px solid #FFB22C;
+}
+
+.signUpPrompt {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0 28px;
+    color: #F7F7F7;
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #F7F7F7;
+    margin: 0 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .logInForm {
+        width: 90%;
+        padding: 20px;
+    }
+}
