@@ -1,0 +1,37 @@
+.left-navigation {
+    background-color: #212121;;
+    position: fixed;
+    top:120px;
+    height: calc(100vh - 120px);
+    padding-left: 46px;
+    padding-right: 46px;
+    border-right: solid grey 0.1px;
+}
+.left-navigation ul {
+    list-style-type: none;
+}
+#post{
+    text-align: center;
+    background-color:  #0D7377;
+}
+#post:hover{
+    color: black;
+    font-weight: b; /* Change font weight to lighter on hover */
+    background-color: #3ca799;
+    
+}
+.left-navigation li {
+    font-weight: lighter;
+    font-size: 20px;
+    padding: 20px 20px 20px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: font-weight 0.3s ease; /* Add transition for smoother effect */
+}
+
+.left-navigation li:hover {
+    font-weight: lighter; /* Change font weight to lighter on hover */
+    background-color: rgba(255, 255, 255, 0.1);
+}

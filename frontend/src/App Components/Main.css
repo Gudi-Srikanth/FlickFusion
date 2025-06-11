@@ -1,0 +1,19 @@
+.container {
+    position: relative;
+    top:120px;
+    z-index: 1;
+    width: 100%;
+    background-color: #323232;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;  
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto; 
+    }        
+}
+

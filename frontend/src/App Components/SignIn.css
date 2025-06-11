@@ -1,0 +1,49 @@
+.signInContainer {
+    color: #BBE1FA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color:#1B262C;
+}
+
+.signInForm {
+    width: 350px;
+    padding: 20px;
+    background-color: #0F4C75; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #BBE1FA /* Dark text color */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px;
+}
+
+.signInButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #3282B8; /* Blue button color */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.signInButton:hover {
+    background-color: #364F6B; /* Darker blue on hover */
+}
