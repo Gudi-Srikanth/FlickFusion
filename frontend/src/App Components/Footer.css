@@ -4,4 +4,9 @@
     font-size: 0.9rem;
     color: #888;
     background-color: #000;
+    font-size: 0.85rem;
+    text-align: center;
+    color: #ccc;
+    border-top: 1px solid rgba(255, 178, 44, 0.3);
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.3);
 }

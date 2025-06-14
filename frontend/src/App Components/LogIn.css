@@ -9,11 +9,31 @@ body {
 }
 
 .logInContainer {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #000;
-    color: #fff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url('../../public/FlickFusionBG.jpg') center center / cover no-repeat fixed;
+  color: #fff;
+  z-index: 1;
+  animation: fadeInBG 1s ease-in-out;
+}
+
+@keyframes fadeInBG {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.logInContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: -1;
 }
 
 .logo {

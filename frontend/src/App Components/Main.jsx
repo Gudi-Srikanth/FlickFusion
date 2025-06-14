@@ -1,16 +1,21 @@
 import React from "react";
 import './Main.css';
-import Left from "./Main components/Left";
-import Right from "./Main components/Right";
-import Center from "./Main components/Center";
+import Right from "./Main components/RightPanel";
+import Center from "./Main components/CenterPanel";
+import Header from "./Header";
+import Footer from "./Footer";
 
 function Main(){
     return (
-        <div className="container">
-            <Left />
-            <Center />
-            <Right />
+        <div className="mainWrapper">
+            <Header />
+            <div className="mainContent">
+                <Center />
+                <Right />
+             </div>
+            <Footer />
         </div>
+
     );
 }
 export default Main;

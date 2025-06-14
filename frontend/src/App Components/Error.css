@@ -1,8 +1,8 @@
 .errorText {
-  color: #b00020;
-  background-color: #fddede;
-  border: 1px solid #f5c2c7;
-  border-left: 4px solid #b00020;
+  color: #FFB22C; /* yellow text */
+  background-color: #1a1a1a; /* dark background */
+  border: 1px solid #FFB22C;
+  border-left: 4px solid #FFB22C;
   padding: 10px 15px;
   margin-bottom: 15px;
   border-radius: 8px;
@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(255, 178, 44, 0.15);
   animation: slideDown 0.3s ease-out;
 }
 

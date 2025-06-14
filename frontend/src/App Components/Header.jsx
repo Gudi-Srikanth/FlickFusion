@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import './Header.css';
 
@@ -14,10 +14,17 @@ const Header = () => {
 
   return (
     <header className="topHeader">
+
       <div className="header-left">
         <img className="logo" src="/logo.jpg" alt="logo" />
         <h1 className="title">FlickFusion</h1>
       </div>
+
+      <div className="searchContainer">
+        <input type="text" className="searchInput" placeholder="Search Movies..." onChange/>
+       <div className="searchResults"> </div>
+      </div>
+
       {user && (
         <div className="profilePicContainer" onClick={handlePfpClick}>
           <img

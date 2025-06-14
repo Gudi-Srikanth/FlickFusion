@@ -51,9 +51,12 @@ app.post("/signup", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const defaultProfilePic = "/defaultPfp.jpg";
+
     const result = await db.query(
-      "INSERT INTO users (display_name, username, password) VALUES ($1, $2, $3) RETURNING *",
-      [display_name, username, hashedPassword]
+      `INSERT INTO users (display_name, username, password_hash, profile_pic_url)
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [display_name, username, hashedPassword, defaultProfilePic]
     );
 
     const user = result.rows[0];
@@ -74,6 +77,7 @@ app.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Signup failed", error: err.message });
   }
 });
+
 
 // Login Route
 app.post("/login", (req, res, next) => {
@@ -104,7 +108,7 @@ passport.use(new Strategy(async (username, password, cb) => {
     if (result.rows.length === 0) return cb(null, false);
 
     const user = result.rows[0];
-    bcrypt.compare(password, user.password, (err, isMatch) => {
+    bcrypt.compare(password, user.password_hash, (err, isMatch) => {
       if (err) return cb(err);
       if (isMatch) return cb(null, user);
       return cb(null, false);

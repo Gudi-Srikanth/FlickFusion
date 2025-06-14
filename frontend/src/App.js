@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Main from './App Components/Main';
 import LogIn from './App Components/LogIn';
 import SignUp from './App Components/SignUp';
-import Review from './App Components/Main components/Left Components/Review';
 import { useAuth } from './App Components/AuthContext';
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/home" element={user ? <Main /> : <Navigate to="/login" />} />
-        <Route path="/review" element={user ? <Review /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

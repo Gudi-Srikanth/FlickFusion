@@ -1,5 +1,5 @@
 import React from "react";
-import './Right.css';
+import './RightPanel.css';
 import Reviewers from "./RIght Components/Reviewers";
 function Right(){
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import './Center.css';
+import './CenterPanel.css';
 import Review from "./Center Components/Review";
 function Center(){
     return (
