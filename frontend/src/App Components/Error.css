@@ -1,0 +1,32 @@
+.errorText {
+  color: #b00020;
+  background-color: #fddede;
+  border: 1px solid #f5c2c7;
+  border-left: 4px solid #b00020;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  animation: slideDown 0.3s ease-out;
+}
+
+.errorText::before {
+  content: "⚠️";
+  font-size: 1.2rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

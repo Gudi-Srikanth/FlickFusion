@@ -1,21 +1,27 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './App Components/Header';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './App Components/Main';
 import LogIn from './App Components/LogIn';
 import SignUp from './App Components/SignUp';
 import Review from './App Components/Main components/Left Components/Review';
+import { useAuth } from './App Components/AuthContext';
 
 function App() {
-    return (
-        <Router>
-                <Routes>
-                    <Route path="/" element={<div><LogIn/></div>} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/review" element={<Review />} />
-                </Routes>
-        </Router>
-    );
+  const { user, authChecked } = useAuth();
+
+  if (!authChecked) return <div>Loading...</div>;
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/home" element={user ? <Main /> : <Navigate to="/login" />} />
+        <Route path="/review" element={user ? <Review /> : <Navigate to="/login" />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
