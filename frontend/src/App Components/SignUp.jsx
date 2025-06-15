@@ -28,14 +28,13 @@ function SignUp() {
         setError(null);
 
         try {
-            const userData = {
-              display_name: displayName,
-              username: username,
-              password: password
-          };
 
-            const response = await axios.post('http://localhost:5000/signup', userData);
-
+            const response = await axios.post("http://localhost:5000/login", {displayName, username, password }, {
+                withCredentials: true
+            });
+            axios.get("http://localhost:5000/checkAuth", {
+                withCredentials: true
+            });
             setUser(response.data.user);
             navigate('/home');
 

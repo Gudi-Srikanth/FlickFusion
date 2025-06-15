@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
+import React from 'react';
 import './Header.css';
+import Search from './Search';
+import Profile from './Profile';
 
 const Header = () => {
-  const { user } = useAuth();
-
-  const handlePfpClick = () => {
-    if (user) {
-      // open dropdown/modal in future
-      console.log('Open profile menu');
-    }
-  };
 
   return (
     <header className="topHeader">
@@ -20,20 +13,12 @@ const Header = () => {
         <h1 className="title">FlickFusion</h1>
       </div>
 
-      <div className="searchContainer">
-        <input type="text" className="searchInput" placeholder="Search Movies..." onChange/>
-       <div className="searchResults"> </div>
+     <div className="header-center">
+      <Search />
+     </div>
+     <div className="header-right">
+        <Profile />
       </div>
-
-      {user && (
-        <div className="profilePicContainer" onClick={handlePfpClick}>
-          <img
-            src={'/defaultPfp.jpg'} 
-            alt="Profile"
-            className="profilePic"
-          />
-        </div>
-      )}
     </header>
   );
 };

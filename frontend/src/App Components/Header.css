@@ -13,49 +13,13 @@
     display: flex;
     align-items: center;
 }
-
-.searchContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 40%;
-  margin: 0 auto;
-  margin-top:10px;
-  border-radius: 25px;
-  background-color: #000;
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-
-.searchInput {
-  width: 100%;
-  padding: 12px 16px 12px 42px; /* leave space for icon */
-  border: none;
-  border-radius: 25px;
-  background-color: transparent;
-  color: white;
-  font-size: 1rem;
-  outline: none;
-}
-
-.searchInput::placeholder {
-  color: #FFB22C;
-  opacity: 0.8;
-}
-
-.profilePicContainer {
-  margin-left: auto;
-  padding: 5px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.profilePicContainer:hover {
-  transform: scale(1.05);
-}
-
-.profilePic {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid #FFB22C;
+.header-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }

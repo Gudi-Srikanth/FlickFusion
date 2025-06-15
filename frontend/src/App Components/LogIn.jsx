@@ -27,9 +27,12 @@ function LogIn() {
         setLoading(true);
 
         try {
-            const userData = { username, password };
-            console.log(userData);
-            const response = await axios.post("http://localhost:5000/login", userData);
+            const response = await axios.post("http://localhost:5000/login", { username, password }, {
+                withCredentials: true
+            });
+            axios.get("http://localhost:5000/checkAuth", {
+                withCredentials: true
+            });
             setUser(response.data.user);
             navigate('/home');
         } catch (error) {

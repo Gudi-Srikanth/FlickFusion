@@ -7,19 +7,23 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
 import bcrypt from "bcrypt";
+import axios from "axios";
 
 const app = express();
 const port = 5000;
 const saltRounds = 10;
 env.config();
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,     
+    sameSite: "lax"
+  }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -92,14 +96,7 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-// Auth check route for frontend
-app.get("/checkAuth", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.status(200).json({ authenticated: true, user: req.user });
-  } else {
-    res.status(200).json({ authenticated: false });
-  }
-});
+
 
 // Passport Local Strategy
 passport.use(new Strategy(async (username, password, cb) => {
@@ -120,7 +117,7 @@ passport.use(new Strategy(async (username, password, cb) => {
 
 // Serialize the user ID to save in session
 passport.serializeUser((user, done) => {
-  done(null, user.user_id); // or whatever your user primary key is
+  done(null, user.user_id); 
 });
 
 // Deserialize the user from the ID stored in session
@@ -131,6 +128,129 @@ passport.deserializeUser(async (id, done) => {
     done(null, user);
   } catch (err) {
     done(err, null);
+  }
+});
+
+// Logout route
+app.post("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ error: "Logout failed" });
+    }
+
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destroy error:", err);
+      }
+
+      res.clearCookie("connect.sid"); 
+      res.status(200).json({ message: "Logged out" });
+    });
+  });
+});
+
+// Auth check route for frontend
+app.get("/checkAuth", (req, res) => {
+  console.log("Auth check request received,request isAuthenticated:", req.isAuthenticated());
+  console.log("Current user:", req.user);
+  if (req.isAuthenticated()) {
+    res.status(200).json({ authenticated: true, user: req.user });
+  } else {
+    res.status(200).json({ authenticated: false });
+  }
+});
+
+
+app.get("/search", async (req, res) => {
+  const query = req.query.query;
+  if (!query) return res.status(400).json({ error: "Missing query" });
+
+  try {
+    // Check if movie is already in database
+    const dbresponse = await db.query(
+      "SELECT * FROM movies WHERE title ILIKE $1 LIMIT 5",
+      [`%${query}%`]
+    );
+
+    if (dbresponse.rows.length > 0) {
+      console.log("DB search results:", dbresponse.rows);
+      return res.json(dbresponse.rows);
+    } else {
+      // Fetch from TMDB API
+      const apiresponse = await axios.get(`https://api.themoviedb.org/3/search/movie`, {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_TOKEN}`
+        },
+        params: { query }
+      });
+
+      let searchResults = apiresponse.data.results;
+      console.log("TMDB API search results:", searchResults);
+
+      if (searchResults.length > 0) {
+        const insertQuery = `
+          INSERT INTO movies (
+            id, title, poster_path, overview, release_date, vote_average, vote_count,
+            adult, original_language, backdrop_path, genre_ids, original_title,
+            popularity, video
+          )
+          VALUES ($1, $2, $3, $4, $5, $6, $7,
+                  $8, $9, $10, $11, $12,
+                  $13, $14)
+          ON CONFLICT (id) DO NOTHING
+        `;
+
+        for (const movie of searchResults) {
+          try {
+            await db.query(insertQuery, [
+              movie.id,
+              movie.title,
+              movie.poster_path,
+              movie.overview,
+              movie.release_date && movie.release_date.trim() !== "" ? movie.release_date : null,
+              movie.vote_average,
+              movie.vote_count,
+              movie.adult,
+              movie.original_language,
+              movie.backdrop_path,
+              Array.isArray(movie.genre_ids) ? movie.genre_ids : null,
+              movie.original_title,
+              movie.popularity,
+              movie.video
+            ]);
+          } catch (dbError) {
+            console.error(`DB insert failed for "${movie.title}":`, dbError.message);
+          }
+        }
+      }
+
+      searchResults = searchResults.slice(0, 5);
+      return res.json(searchResults);
+    }
+  } catch (err) {
+    console.error("TMDB API error:", err.message);
+    res.status(500).json({ error: "Search failed" });
+  }
+});
+
+
+//GET User stats
+app.get("/follow-stats/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const [followersRes, followingRes] = await Promise.all([
+      db.query("SELECT COUNT(*) FROM followers WHERE follower_id = $1", [userId]),
+      db.query("SELECT COUNT(*) FROM followers WHERE following_id = $1", [userId])
+    ]);
+
+    res.json({
+      followers: parseInt(followersRes.rows[0].count),
+      following: parseInt(followingRes.rows[0].count)
+    });
+  } catch (err) {
+    console.error("Follow stats error:", err);
+    res.status(500).json({ error: "Failed to fetch stats" });
   }
 });
 
