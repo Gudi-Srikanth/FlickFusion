@@ -82,7 +82,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-
 // Login Route
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -95,8 +94,6 @@ app.post("/login", (req, res, next) => {
     });
   })(req, res, next);
 });
-
-
 
 // Passport Local Strategy
 passport.use(new Strategy(async (username, password, cb) => {
@@ -152,8 +149,6 @@ app.post("/logout", (req, res) => {
 
 // Auth check route for frontend
 app.get("/checkAuth", (req, res) => {
-  console.log("Auth check request received,request isAuthenticated:", req.isAuthenticated());
-  console.log("Current user:", req.user);
   if (req.isAuthenticated()) {
     res.status(200).json({ authenticated: true, user: req.user });
   } else {
@@ -161,7 +156,7 @@ app.get("/checkAuth", (req, res) => {
   }
 });
 
-
+//GET search results
 app.get("/search", async (req, res) => {
   const query = req.query.query;
   if (!query) return res.status(400).json({ error: "Missing query" });
@@ -234,7 +229,6 @@ app.get("/search", async (req, res) => {
   }
 });
 
-
 //GET User stats
 app.get("/follow-stats/:userId", async (req, res) => {
   const userId = req.params.userId;
@@ -253,6 +247,33 @@ app.get("/follow-stats/:userId", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch stats" });
   }
 });
+
+//POST User profile edit
+app.post('/edit-profile', async (req, res) => {
+  const { user_id, display_name, username, profile_pic_url } = req.body;
+  if (!user_id || !display_name || !username) {
+    return res.status(400).json({ success: false, message: "Required fields missing" });
+  }
+
+  try {
+    const existing = await db.query("SELECT * FROM users WHERE username = $1 AND user_id != $2", [username, user_id]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ success: false, message: "Username already taken" });
+    }
+
+    const result = await db.query(
+      "UPDATE users SET display_name = $1, username = $2, profile_pic_url = $3 WHERE user_id = $4 RETURNING *",
+      [display_name, username, profile_pic_url, user_id]
+    );
+
+    res.status(200).json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    console.error("Edit profile error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -36,7 +36,7 @@ const Profile = () => {
     <div className="profile">
       {user && (
         <div className="profilePicContainer" onClick={handlePfpClick}>
-          <img src={'/defaultPfp.jpg'} alt="Profile" className="profilePic" />
+          <img src={'/assets/defaultPfp.jpg'} alt="Profile" className="profilePic" />
           {showMenu && (
             <div className="profileMenu" ref={menuRef}>
               <p>Hello, {user.display_name}</p>

@@ -17,7 +17,7 @@ const Header = () => {
       <Search />
      </div>
      <div className="header-right">
-        <Profile />
+      <Profile />
       </div>
     </header>
   );
