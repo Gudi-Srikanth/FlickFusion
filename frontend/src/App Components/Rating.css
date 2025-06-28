@@ -1,0 +1,45 @@
+.chart-scale {
+    background-color: #000;
+    padding: 2rem;
+    border-radius: 16px;
+    color: #fff;
+    text-align: left;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.rating-text {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #FFB22C; /* gold yellow */
+}
+
+.rating-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.rating-button {
+    width: 48px;
+    height: 48px;
+    background-color: #1c1c1c;
+    color: #fff;
+    border: 2px solid #FFB22C;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rating-button:hover {
+    background-color: #FFB22C;
+    color: #000;
+}
+
+.rating-button.selected {
+    background-color: #FFB22C;
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 10px #FFB22C;
+}

@@ -31,7 +31,6 @@ const SearchResults = () => {
        params: { query },
       withCredentials: true,  
       });
-      console.log("Frontend Axios response:", response.data);
       setResults(response.data || []);
 
       }catch (err) {
@@ -64,7 +63,7 @@ const SearchResults = () => {
 
     return (
       <>
-        <h2 className="searchTitle">Top 5 Results for "{query}"</h2>
+        <h2 className="searchTitle">Top Results for "{query}"</h2>
         <div className="resultsGrid">
           {results.map((movie) => (
             <div key={movie.id} className="resultCard" onClick={() => navigate(`/movie/${movie.id}`)}>

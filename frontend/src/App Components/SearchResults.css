@@ -1,15 +1,19 @@
 .searchResultsContainer {
-  flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.searchTitle,
-.resultsGrid,
-.search-message,
-.error-message {
-  flex: 1;
+.searchTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #FFB22C; 
+  padding: 0.5rem 1rem;
+  margin: 0;
+  border-bottom: 0.1px solid #FFB22C;
 }
 
 .resultsGrid {
@@ -17,30 +21,34 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .resultCard {
   display: flex;
   align-items: center;
   background-color: #1e1e1e;
-  width:50%;
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .resultCard:hover {
   transform: translateY(-4px);
-  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(255, 191, 36, 0.2); 
 }
 
 .poster {
-  width: 100px;
-  height: 150px;
+  width: 90px;
+  height: 135px;
   object-fit: cover;
   border-radius: 6px;
   margin-right: 1rem;
+  background-color: #111;
 }
 
 .movieInfo {
@@ -50,13 +58,35 @@
 }
 
 .movieTitle {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
 }
 
 .movieRating {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #ccc;
+}
+
+@media (max-width: 600px) {
+  .resultCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .poster {
+    width: 100%;
+    height: auto;
+    margin: 0 0 1rem 0;
+  }
+
+  .resultsGrid {
+    padding: 0.75rem;
+  }
+
+  .searchTitle {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.75rem;
+  }
 }

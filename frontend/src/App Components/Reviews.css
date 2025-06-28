@@ -1,0 +1,40 @@
+.reviews-section {
+  padding: 1rem;
+  background-color: #000;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.review {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.review-pfp {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.review-content {
+  flex: 1;
+}
+
+.review-author {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+}
+
+.like-button {
+  margin-top: 0.5rem;
+  background-color: #000;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}

@@ -22,7 +22,7 @@ function App() {
         <Route path="/home" element={user ? <Main /> : <Navigate to="/login" />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/edit-profile/:id" element={<EditProfile />} />
-        <Route path="movie/:id" element={<Movie />}/>
+        <Route path="/movie/:movieId" element={<Movie />} />
       </Routes>
     </Router>
   );

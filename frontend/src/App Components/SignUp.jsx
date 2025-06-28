@@ -29,10 +29,14 @@ function SignUp() {
 
         try {
 
-            const response = await axios.post("http://localhost:5000/login", {displayName, username, password }, {
-                withCredentials: true
-            });
-            axios.get("http://localhost:5000/checkAuth", {
+            await axios.post("http://localhost:5000/signup", {
+                display_name: displayName,
+                username,
+                password
+                }, {
+                    withCredentials: true
+                });
+            const response = await axios.get("http://localhost:5000/checkAuth", {
                 withCredentials: true
             });
             setUser(response.data.user);
