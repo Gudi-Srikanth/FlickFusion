@@ -19,7 +19,6 @@
   padding: 1rem;
 }
 
-
 .resultCard {
   display: flex;
   align-items: center;
@@ -33,6 +32,7 @@
 
 .resultCard:hover {
   transform: translateY(-4px);
+  cursor: pointer;
 }
 
 .poster {

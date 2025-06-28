@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState} from 'react';
+import { useLocation ,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SearchResults.css';
 import Header from './Header';
@@ -8,6 +8,7 @@ import Error from './Error';
 
 const SearchResults = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const query = new URLSearchParams(location.search).get('query');
 
   const [results, setResults] = useState([]);
@@ -66,14 +67,14 @@ const SearchResults = () => {
         <h2 className="searchTitle">Top 5 Results for "{query}"</h2>
         <div className="resultsGrid">
           {results.map((movie) => (
-            <div key={movie.id} className="resultCard">
+            <div key={movie.id} className="resultCard" onClick={() => navigate(`/movie/${movie.id}`)}>
               <img
                 src={movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : '/placeholder.jpg'}
                 alt={movie.title}
                 className="poster"
                 loading="lazy"
               />
-              <div className="movieInfo">
+              <div className="movieInfo" >
                 <h3 className="movieTitle">{movie.title}</h3>
                 <p className="movieRating">⭐ {movie.vote_average || "N/A"}</p>
               </div>

@@ -13,7 +13,6 @@ const EditProfile = () => {
   const { user, setUser } = useAuth();
   const [error, setError] = useState('');
 
-  // Declare hooks unconditionally
   const [displayName, setDisplayName] = useState(user?.display_name || '');
   const [userName, setUserName] = useState(user?.username || '');
   const [profilePicUrl, setProfilePicUrl] = useState(user?.profile_pic_url || '');
@@ -124,8 +123,8 @@ const EditProfile = () => {
           </div>
 
           <div className="buttonGroup">
-            <button type="submit" disabled={!isChanged}>Save</button>
-            <button type="button" disabled={!isChanged} className="cancelButton" onClick={handleCancel}>Cancel</button>
+            <button type="submit" className="submitButton" disabled={!isChanged}>Save</button>
+            <button type="button"  disabled={!isChanged} className="cancelButton" onClick={handleCancel}>Cancel</button>
           </div>
         </form>
       </div>

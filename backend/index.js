@@ -273,7 +273,25 @@ app.post('/edit-profile', async (req, res) => {
   }
 });
 
-
+// GET Movie details
+app.get('/movie/:movieId', async (req, res) => {
+  const movieId = req.params.movieId;
+  try {
+    const result = await db.query("SELECT * FROM movies WHERE id = $1", [movieId]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Movie not found" });
+    } else {
+      // Optionally, you can process genres here if needed
+      let genre_names = db.query(
+      "SELECT STRING_AGG(g.genre_name, ', ') AS genre_names FROM movies mJOIN LATERAL UNNEST(m.genre_ids) AS genre_id_unpacked(genre_id) ON TRUE JOIN genres g ON g.genre_id = genre_id_unpacked.genre_id WHERE m.movie_id = $1", [movieId]);
+      console.log("Movie details fetched:", result.rows[0]);
+      res.status(200).json(result.rows[0]);
+    }
+  } catch (err) {
+    console.error("Get movie details error:", err);
+    res.status(500).json({ error: "Failed to fetch movie details" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

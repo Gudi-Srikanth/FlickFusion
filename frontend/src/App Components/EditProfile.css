@@ -103,7 +103,7 @@ h2 {
   margin-top: 1rem;
 }
 
-button[type="submit"] {
+.submitButton{
   padding: 0.8rem 1.5rem;
   width: 200px;
   font-size: 1.1rem;
@@ -123,6 +123,7 @@ button[type="submit"]:hover {
     border: 1px solid #FFB22C;
 }
 button[disabled] {
+  color: #FFB22C;
   background-color: #444 !important;
   cursor: not-allowed;
   opacity: 0.6;
