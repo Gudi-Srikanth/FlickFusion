@@ -505,6 +505,7 @@ app.get('/movie/:movieId/reviews', async (req, res) => {
   }
 });
 
+//POST Movie review
 app.post('/movie/:movieId/reviews', async (req, res) => {
   const movieId = parseInt(req.params.movieId, 10);
   if (isNaN(movieId)) {
@@ -543,18 +544,76 @@ app.post('/movie/:movieId/reviews', async (req, res) => {
   }
 });
 
+//GET review likes
+app.get('/review/:reviewId/likes', async (req, res) => {
+  const reviewId = parseInt(req.params.reviewId, 10);
+  const userId = req.user?.user_id || req.user?.id;
+  
+  if (isNaN(reviewId)) {
+    return res.status(400).json({ success: false, error: "Invalid review ID" });
+  }
 
+  try {
+    const [countRes, userLikeRes] = await Promise.all([
+      db.query(
+        'SELECT COUNT(*) FROM reviewlikes WHERE review_id = $1 AND liked = true',
+        [reviewId]
+      ),
+      userId ? db.query(
+        'SELECT liked FROM reviewlikes WHERE review_id = $1 AND user_id = $2',
+        [reviewId, userId]
+      ) : { rows: [] }
+    ]);
 
-//GET User recent activity(recent reviews, ratings)
+    return res.status(200).json({
+      success: true,
+      count: parseInt(countRes.rows[0].count, 10),
+      likedByCurrentUser: userLikeRes.rows[0]?.liked || false
+    });
+  } catch (err) {
+    console.error("Error fetching review likes:", err);
+    return res.status(500).json({ success: false, error: "Failed to fetch likes" });
+  }
+});
 
-//GET Latest Releases
+//POST review like by an user
+app.post('/review/:reviewId/like', async (req, res) => {
+  const reviewId = parseInt(req.params.reviewId, 10);
+  const userId = req.user?.user_id || req.user?.id;
 
-//GET Popular recent reviews 
+  if (isNaN(reviewId)) {
+    return res.status(400).json({ success: false, error: "Invalid review ID" });
+  }
 
-//GET Popular reviewers
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "User not authenticated" });
+  }
 
-//GET Movie reccomendations (May not implement this)
+  try {
+    const existing = await db.query(
+      'SELECT liked FROM reviewlikes WHERE review_id = $1 AND user_id = $2',
+      [reviewId, userId]
+    );
 
+    if (existing.rows.length > 0) {
+      const current = existing.rows[0].liked;
+      const updated = await db.query(
+        'UPDATE reviewlikes SET liked = $1 WHERE review_id = $2 AND user_id = $3',
+        [!current, reviewId, userId]
+      );
+    } else {
+      await db.query(
+        'INSERT INTO reviewlikes (review_id, user_id, liked) VALUES ($1, $2, true)',
+        [reviewId, userId]
+      );
+    }
+
+    return res.status(200).json({ success: true, message: "Like status updated" });
+  } catch (err) {
+    console.error("Error toggling like:", err);
+    return res.status(500).json({ success: false, error: "Failed to update like" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
