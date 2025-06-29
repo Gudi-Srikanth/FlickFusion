@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './AddReview.css';
 
-const AddReview = ({ movieId, setReviews }) => {
+const AddReview = ({ movieId, onReviewSubmit }) => {
   const [newReview, setNewReview] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!newReview.trim()) return;
-    
-    try {
-      const res = await fetch(`http://localhost:5000/movie/${movieId}/reviews`, {
-        method: "POST",
-        credentials: "include",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newReview }),
-      });
+const handleSubmit = async () => {
+  if (!newReview.trim()) return;
 
-      const data = await res.json();
+  setLoading(true);
+  try {
+    const response = await axios.post(
+      `http://localhost:5000/movie/${movieId}/reviews`,
+      { content: newReview },
+      { withCredentials: true }
+    );
 
-      if (data.success) {
-        setReviews(prev => [data.review, ...prev]);
-        setNewReview("");
-      }
-    } catch (err) {
-      console.error("Review submission failed:", err);
+    if (response.data.success) {
+      onReviewSubmit(response.data.review);
+      setNewReview("");
+    } else {
+      alert(response.data.error || "Failed to post review");
     }
-  };
+  } catch (error) {
+    console.error("Error posting review:", error);
+    alert(error.response?.data?.error || "An error occurred while posting the review");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="add-review">
       <h3>Leave a Review</h3>
-      <div className="review">
-        <textarea
-          value={newReview}
-          onChange={(e) => setNewReview(e.target.value)}
-          placeholder="Write your review here..."
-        />
-      </div>
-      <div className="rating">
-        <label for="rating">Rate this:</label>
-        <input type="range" id="rating" name="rating" min="1" max="10" value="5" />
-      </div>
-      <button onClick={handleSubmit}>Post</button>
+      <textarea
+        value={newReview}
+        onChange={(e) => setNewReview(e.target.value)}
+        placeholder="Write your review here..."
+      />
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? "Posting..." : "Post"}
+      </button>
     </div>
   );
 };

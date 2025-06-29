@@ -14,7 +14,6 @@ const Movie = () => {
   const { user, authChecked } = useAuth();
 
   if (!authChecked) return <div>Loading authentication...</div>;
-
   if (!user) return <Error message="Please log in to view this page." />;
 
   return (

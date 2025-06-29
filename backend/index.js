@@ -477,7 +477,7 @@ app.get('/movie/:movieId/reviews', async (req, res) => {
   }
 
   try {
-    const userId = req.user?.user_id || req.user?.id; // Handles both naming conventions
+    const userId = req.user?.user_id || req.user?.id;
     if (!userId) {
       return res.status(401).json({ success: false, error: "User not authenticated" });
     }
@@ -505,14 +505,42 @@ app.get('/movie/:movieId/reviews', async (req, res) => {
   }
 });
 
-
-//POST Movie review
 app.post('/movie/:movieId/reviews', async (req, res) => {
   const movieId = parseInt(req.params.movieId, 10);
   if (isNaN(movieId)) {
     return res.status(400).json({ success: false, error: "Invalid movie ID" });
   }
-  return res.status(501).json({ success: false, error: "Not implemented" });
+
+  try {
+    const userId = req.user?.user_id || req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: "User not authenticated" });
+    }
+
+    const { content } = req.body;
+    if (!content) {
+      return res.status(400).json({ success: false, error: "Review content is required" });
+    }
+
+    const result = await db.query(
+      `INSERT INTO reviews (user_id, movie_id, review_text) 
+       VALUES ($1, $2, $3)
+       RETURNING *, 
+       (SELECT display_name FROM users WHERE user_id = $1) as display_name,
+       (SELECT profile_pic_url FROM users WHERE user_id = $1) as profile_pic_url`,
+      [userId, movieId, content]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(400).json({ success: false, error: "Failed to post movie review" });
+    }
+
+    return res.json({ success: true, review: result.rows[0] });
+
+  } catch (err) {
+    console.error("Error in posting movie review", err);
+    return res.status(500).json({ success: false, error: "Failed to submit movie review" });
+  }
 });
 
 
