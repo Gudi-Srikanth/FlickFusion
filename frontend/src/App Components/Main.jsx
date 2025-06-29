@@ -1,7 +1,6 @@
 import React from "react";
 import './Main.css';
-import Right from "./Main components/RightPanel";
-import Center from "./Main components/CenterPanel";
+import Home from './Home'
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -10,9 +9,8 @@ function Main(){
         <div className="mainWrapper">
             <Header />
             <div className="mainContent">
-                <Center />
-                <Right />
-             </div>
+                <Home />
+            </div>
             <Footer />
         </div>
 

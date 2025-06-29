@@ -6,6 +6,7 @@ import SignUp from './App Components/SignUp';
 import SearchResults from './App Components/SearchResults';
 import EditProfile from './App Components/EditProfile';
 import Movie from './App Components/Movie';
+import User from './App Components/User'
 import { useAuth } from './App Components/AuthContext';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/search" element={<SearchResults />} />
         <Route path="/edit-profile/:id" element={<EditProfile />} />
         <Route path="/movie/:movieId" element={<Movie />} />
+        <Route path="/user/:userId" element={<User />} />
       </Routes>
     </Router>
   );
