@@ -21,6 +21,8 @@ A full-stack web application where users can search, review, and interact with m
 ## 📷 Demo
 
 ![FlickFusion Demo](frontend/public/assets/FlickFusion_HomePage.gif)
+
+
 [![Watch the full demo video]](frontend/public/assets/FlickFusion_Demo.mp4)
 
 
