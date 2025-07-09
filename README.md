@@ -21,6 +21,8 @@ A full-stack web application where users can search, review, and interact with m
 ## 📷 Demo
 
 ![FlickFusion Demo](frontend/public/assets/FlickFusion_HomePage.gif)
+
+
 [![Watch the full demo video]](frontend/public/assets/FlickFusion_Demo.mp4)
 
 
@@ -31,7 +33,6 @@ A full-stack web application where users can search, review, and interact with m
 **Frontend**: React, HTML, CSS  
 **Backend**: Node.js (Express)  
 **Database**: PostgreSQL  
-**Auth**: Cookies, JWT, Google OAuth  
 **API**: [TMDB](https://www.themoviedb.org/documentation/api)
 
 ---
@@ -40,7 +41,7 @@ A full-stack web application where users can search, review, and interact with m
 
 ### ✅ Completed
 
-- User login & signup (with Google)
+- User login & signup
 - Post and view reviews
 - Like/Dislike reviews
 - Follow/Unfollow users
@@ -54,7 +55,7 @@ A full-stack web application where users can search, review, and interact with m
 ### 🔮 Planned Features
 
 - 🔐 Forgot password & account recovery
-- 📱 Social logins (Facebook, Twitter, etc.)
+- 📱 Social logins (Google, Facebook, Twitter, etc.)
 - 📧 Email & phone number verification
 - 🔎 Advanced search filtering (genre, year, rating)
 - 💬 Replies to reviews
