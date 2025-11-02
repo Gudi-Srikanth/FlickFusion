@@ -7,6 +7,8 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import Error from './Error';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function LogIn() {
     const { setUser } = useAuth();
     const navigate = useNavigate();
@@ -27,10 +29,7 @@ function LogIn() {
         setLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:5000/login", { username, password }, {
-                withCredentials: true
-            });
-            axios.get("http://localhost:5000/checkAuth", {
+            const response = await axios.post(`${API_BASE_URL}/login`, { username, password }, {
                 withCredentials: true
             });
             setUser(response.data.user);
@@ -63,6 +62,8 @@ function LogIn() {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username"
+                            autoFocus 
+                            disabled={loading} 
                         />
                     </div>
                     <div className="formGroup">

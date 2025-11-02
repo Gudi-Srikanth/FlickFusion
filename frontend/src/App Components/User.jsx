@@ -6,6 +6,8 @@ import Header from './Header';
 import Footer from './Footer';
 import './User.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const User = () => {
   const { userId } = useParams();
   const { user: currentUser } = useAuth(); 
@@ -21,15 +23,15 @@ const User = () => {
     const fetchUserData = async () => {
       try {
         const requests = [
-          axios.get(`http://localhost:5000/user/${userId}`),
-          axios.get(`http://localhost:5000/user/${userId}/followers-count`),
-          axios.get(`http://localhost:5000/user/${userId}/following-count`),
-          axios.get(`http://localhost:5000/user/${userId}/reviews`)
+          axios.get(`${API_BASE_URL}/user/${userId}`),
+          axios.get(`${API_BASE_URL}/user/${userId}/followers-count`),
+          axios.get(`${API_BASE_URL}/user/${userId}/following-count`),
+          axios.get(`${API_BASE_URL}/user/${userId}/reviews`)
         ];
 
         if (!isOwnProfile) {
           requests.push(
-            axios.get(`http://localhost:5000/user/${userId}/is-following`, { withCredentials: true })
+            axios.get(`${API_BASE_URL}/user/${userId}/is-following`, { withCredentials: true })
           );
         }
 
@@ -52,7 +54,7 @@ const User = () => {
 
   const handleFollow = async () => {
     try {
-      await axios.post(`http://localhost:5000/user/${userId}/follow`, {}, { withCredentials: true });
+      await axios.post(`${API_BASE_URL}/user/${userId}/follow`, {}, { withCredentials: true });
       setIsFollowing(true);
       setFollowersCount(prev => prev + 1);
     } catch (err) {

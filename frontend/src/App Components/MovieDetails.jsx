@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MovieDetails.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const MovieDetails = ({ movieId }) => {
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
@@ -9,8 +11,8 @@ const MovieDetails = ({ movieId }) => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/movie/${movieId}`, {
-          withCredentials: true, // use withCredentials instead of credentials
+        const res = await axios.get(`${API_BASE_URL}/movie/${movieId}`, {
+          withCredentials: true, 
           headers: { 'Content-Type': 'application/json' },
         });
 

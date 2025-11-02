@@ -8,6 +8,8 @@ import './EditProfile.css';
 import { BiPencil } from "react-icons/bi";
 import Error from './Error';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
@@ -58,7 +60,7 @@ const EditProfile = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/edit-profile', {
+      const res = await axios.post(`${API_BASE_URL}/edit-profile`, {
         user_id: user.user_id,
         display_name: displayName,
         username: userName,

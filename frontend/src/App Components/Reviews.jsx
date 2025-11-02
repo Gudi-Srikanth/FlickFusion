@@ -2,18 +2,22 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import AddReview from './AddReview';
 import './Reviews.css';
+import { useNavigate } from 'react-router-dom';
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const Reviews = ({ movieId }) => {
   const [hasReviewed, setHasReviewed] = useState(false);
   const [userReview, setUserReview] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     try {
       const [userRes, allRes] = await Promise.all([
-        axios.get(`http://localhost:5000/movie/${movieId}/user-review`, { withCredentials: true }),
-        axios.get(`http://localhost:5000/movie/${movieId}/reviews`, { withCredentials: true })
+        axios.get(`${API_BASE_URL}/movie/${movieId}/user-review`, { withCredentials: true }),
+        axios.get(`${API_BASE_URL}/movie/${movieId}/reviews`, { withCredentials: true })
       ]);
       setHasReviewed(userRes.data.hasReviewed);
       setUserReview(userRes.data.review);
@@ -43,7 +47,7 @@ const Reviews = ({ movieId }) => {
       const fetchLikeStatus = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:5000/review/${review.review_id}/likes`,
+            `${API_BASE_URL}/review/${review.review_id}/likes`,
             { withCredentials: true }
           );
           if (res.data.success) {
@@ -61,7 +65,6 @@ const Reviews = ({ movieId }) => {
       if (isLikeLoading) return;
       
       const newLikedState = !liked;
-      // Optimistic update
       setLiked(newLikedState);
       setLikes(prev => newLikedState ? prev + 1 : prev - 1);
       setIsLikeLoading(true);
@@ -69,20 +72,18 @@ const Reviews = ({ movieId }) => {
 
       try {
         const res = await axios.post(
-          `http://localhost:5000/review/${review.review_id}/like`,
+          `${API_BASE_URL}/review/${review.review_id}/like`,
           { liked: newLikedState },
           { withCredentials: true }
         );
         
         if (!res.data.success) {
-          // Revert if failed
           setLiked(!newLikedState);
           setLikes(prev => newLikedState ? prev - 1 : prev + 1);
           setLikeError("Failed to update like");
         }
       } catch (err) {
         console.error("Failed to toggle like:", err);
-        // Revert on error
         setLiked(!newLikedState);
         setLikes(prev => newLikedState ? prev - 1 : prev + 1);
         setLikeError(err.response?.data?.error || "Failed to update like");
@@ -97,13 +98,13 @@ const Reviews = ({ movieId }) => {
           src={review.profile_pic_url || "/assets/defaultPfp.jpg"}
           alt="user"
           className="review-pfp"
-          onClick={() => window.location.href = `/user/${review.user_id}`}
+          onClick={() => navigate( `/user/${review.user_id}`)}
         />
         <div className="review-main">
           <div className="review-content">
             <p
               className="review-author"
-              onClick={() => window.location.href = `/user/${review.user_id}`}
+              onClick={() => navigate(`/user/${review.user_id}`)}
             >
               {review.display_name || "Anonymous"}
             </p>

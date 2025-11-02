@@ -6,6 +6,8 @@ import Header from './Header';
 import Footer from './Footer';
 import Error from './Error';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const SearchResults = () => {
         setLoading(true);
         setError(null);
 
-       const response = await axios.get("http://localhost:5000/search", {
+       const response = await axios.get(`${API_BASE_URL}/search`, {
        params: { query },
       withCredentials: true,  
       });

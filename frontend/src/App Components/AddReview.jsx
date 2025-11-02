@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AddReview.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const AddReview = ({ movieId, onReviewSubmit }) => {
   const [newReview, setNewReview] = useState("");
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,7 @@ const handleSubmit = async () => {
   setLoading(true);
   try {
     const response = await axios.post(
-      `http://localhost:5000/movie/${movieId}/reviews`,
+      `${API_BASE_URL}/movie/${movieId}/reviews`,
       { content: newReview },
       { withCredentials: true }
     );

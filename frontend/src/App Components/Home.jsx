@@ -4,6 +4,8 @@ import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Home = () => {
   const [latest, setLatest] = useState([]);
   const [popular, setPopular] = useState([]);
@@ -17,9 +19,9 @@ const Home = () => {
       try {
         setLoading(true);
         const [latestRes, popularRes, topRatedRes] = await Promise.all([
-            axios.get("http://localhost:5000/latest-releases"),
-            axios.get("http://localhost:5000/popular-movies"),
-            axios.get("http://localhost:5000/top-rated"),
+            axios.get(`${API_BASE_URL}/latest-releases`),
+            axios.get(`${API_BASE_URL}/popular-movies`),
+            axios.get(`${API_BASE_URL}/top-rated`),
         ]);
         setLatest(latestRes.data.slice(0, 7));
         setPopular(popularRes.data.slice(0, 7));

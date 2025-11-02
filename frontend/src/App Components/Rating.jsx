@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Rating.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Rating = ({ movieId, setRating }) => {
   const [userRating, setUserRating] = useState(0);
   const [textAboveRating, setTextAboveRating] = useState("🎬 Just watched it? Drop your rating — 1 for trash, 10 for masterpiece!");
@@ -9,7 +11,7 @@ const Rating = ({ movieId, setRating }) => {
   useEffect(() => {
     const fetchUserRating = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/movie/${movieId}/rating`, {
+        const response = await axios.get(`${API_BASE_URL}/movie/${movieId}/rating`, {
           withCredentials: true,
         });
 
@@ -33,7 +35,7 @@ const Rating = ({ movieId, setRating }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/movie/${movieId}/rating`,
+        `${API_BASE_URL}/movie/${movieId}/rating`,
         { rating: newRating },
         { withCredentials: true }
       );

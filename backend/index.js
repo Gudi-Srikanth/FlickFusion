@@ -250,14 +250,12 @@ app.get("/search", async (req, res) => {
 app.get("/follow-stats/:userId", async (req, res) => {
   const userId = req.params.userId;
   try {
-    const [followersRes, followingRes] = await Promise.all([
-      db.query("SELECT COUNT(*) FROM followers WHERE follower_id = $1", [userId]),
-      db.query("SELECT COUNT(*) FROM followers WHERE following_id = $1", [userId])
-    ]);
+    const followersRes = await db.query("SELECT COUNT(*) FROM followers WHERE follower_id = $1", [userId]).catch(()=>null);
+    const followingRes = await db.query("SELECT COUNT(*) FROM followers WHERE following_id = $1", [userId]).catch(()=>null);
 
     res.json({
-      followers: parseInt(followersRes.rows[0].count),
-      following: parseInt(followingRes.rows[0].count)
+      followers: followersRes ? parseInt(followersRes.rows[0].count) : 0,
+      following: followingRes ? parseInt(followingRes.rows[0].count) : 0
     });
   } catch (err) {
     console.error("Follow stats error:", err);

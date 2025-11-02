@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import Error from './Error';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 function SignUp() {
     const { setUser } = useAuth();
     const navigate = useNavigate();
@@ -29,16 +31,13 @@ function SignUp() {
 
         try {
 
-            await axios.post("http://localhost:5000/signup", {
+             const response = await axios.post(`${API_BASE_URL}/signup`, {
                 display_name: displayName,
                 username,
                 password
                 }, {
                     withCredentials: true
                 });
-            const response = await axios.get("http://localhost:5000/checkAuth", {
-                withCredentials: true
-            });
             setUser(response.data.user);
             navigate('/home');
 

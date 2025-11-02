@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Profile = () => {
   const { user, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
@@ -26,7 +28,7 @@ const Profile = () => {
   useEffect(() => {
     if (user && showMenu) {
       axios
-        .get(`http://localhost:5000/follow-stats/${user.user_id}`, { withCredentials: true })
+        .get(`${API_BASE_URL}/follow-stats/${user.user_id}`, { withCredentials: true })
         .then((res) => setStats(res.data))
         .catch((err) => console.error("Follow stats fetch error:", err));
     }
