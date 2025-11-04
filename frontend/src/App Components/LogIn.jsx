@@ -6,6 +6,8 @@ import { useAuth } from './AuthContext';
 import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import Error from './Error';
+import { GoEye,GoEyeClosed } from "react-icons/go";
+
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -16,6 +18,7 @@ function LogIn() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -54,7 +57,7 @@ function LogIn() {
                 <form className="logInForm" onSubmit={handleSubmit}>
                     {error && <Error message={error} />}
                     {loading && <div className="loading-spinner">Logging in...</div>}
-                    <div className="formGroup">
+                    <div className="formGroupLogin">
                         <label className="loginLabels" htmlFor="username">Username</label>
                         <input
                             type="text"
@@ -66,15 +69,21 @@ function LogIn() {
                             disabled={loading} 
                         />
                     </div>
-                    <div className="formGroup">
+                    <div className="formGroupLogin">
                         <label className="loginLabels" htmlFor="password">Password</label>
                         <input
-                            type="password"
+                            type={passwordVisible? "text" : "password"}
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                         />
+                        <button 
+                            type="button" 
+                            className="passwordVisibilityToggleButton" 
+                            onClick={()=> setPasswordVisible(prev => !prev)}>
+                            {passwordVisible?<GoEye/>:<GoEyeClosed/>}
+                        </button>
                     </div>
                     <button type="submit" className="logInButton" disabled={loading}>
                         {loading ? "Logging in..." : "Log In"}

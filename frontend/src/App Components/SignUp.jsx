@@ -6,6 +6,7 @@ import Header from "./Header";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import Error from './Error';
+import { GoEye,GoEyeClosed } from "react-icons/go";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -17,6 +18,7 @@ function SignUp() {
     const [displayName, setDisplayName] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [passwordVisible,setPasswordVisible] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -30,7 +32,6 @@ function SignUp() {
         setError(null);
 
         try {
-
              const response = await axios.post(`${API_BASE_URL}/signup`, {
                 display_name: displayName,
                 username,
@@ -58,14 +59,13 @@ function SignUp() {
     return (
         <div className="signUpContainer">
             <Header />
-
             <div className="signUpCard">
                 <h2 className="signUpTitle">Create Your FlickFusion Account</h2>
                 
                 <form className="signUpForm" onSubmit={handleSubmit}>
                     {error && <Error message={error} />}
                     
-                    <div className="formGroup">
+                    <div className="formGroupSignUp">
                         <label className="signUpLabels" htmlFor="displayname">Name</label>
                         <input
                             type="text"
@@ -76,7 +76,7 @@ function SignUp() {
                         />
                     </div>
 
-                    <div className="formGroup">
+                    <div className="formGroupSignUp">
                         <label className="signUpLabels" htmlFor="username">Username</label>
                         <input
                             type="text"
@@ -87,15 +87,21 @@ function SignUp() {
                         />
                     </div>
 
-                    <div className="formGroup">
+                    <div className="formGroupSignUp">
                         <label className="signUpLabels" htmlFor="password">Password</label>
                         <input
-                            type="password"
+                            type={passwordVisible?"text":"password"}
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                         />
+                        <button
+                            type="button"
+                            className="passwordVisibilityToggleButton"
+                            onClick={()=> setPasswordVisible(prev => !prev)}>
+                            {passwordVisible?<GoEye/>:<GoEyeClosed/>}
+                        </button>
                     </div>
 
                     <button type="submit" className="signUpButton" disabled={loading}>

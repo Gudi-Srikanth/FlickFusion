@@ -86,7 +86,7 @@ body {
     font-weight: 600;
 }
 
-.formGroup {
+.formGroupLogin {
     margin-bottom: 20px;
 }
 
@@ -97,7 +97,7 @@ body {
     font-weight: 500;
 }
 
-input[type="text"],
+.logInContainer input[type="text"],
 input[type="password"] {
     width: 100%;
     height: 42px; 
@@ -113,7 +113,7 @@ input[type="password"] {
     transition: all 0.2s ease;
 }
 
-input[type="text"]:hover,
+.logInContainer input[type="text"]:hover,
 input[type="password"]:hover,
 input[type="text"]:focus,
 input[type="password"]:focus {
@@ -122,19 +122,33 @@ input[type="password"]:focus {
     box-shadow: 0 0 5px #FFB22C80;
 }
 
-input::placeholder {
+.logInContainer input::placeholder {
     color: #ccc;
     font-size: 0.85rem;
     font-weight: 400;
 }
 
-input:-webkit-autofill {
+.logInContainer input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px #000 inset !important;
     -webkit-text-fill-color: #F7F7F7 !important;
     font-size: 1rem !important;
     line-height: 1.2rem !important;
     padding: 10px 12px !important;
 }
+
+.logInContainer .passwordVisibilityToggleButton {
+    position: absolute;
+    right: 12px;
+    top: 39%;
+    transform: translateX(-100%);
+    background: none;
+    border: none;
+    color: #F7F7F7;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px;
+}
+
 
 .logInButton {
     width: 100%;
