@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import './LogIn.css';
 import Footer from "./Footer";
@@ -12,7 +12,7 @@ import { GoEye,GoEyeClosed } from "react-icons/go";
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function LogIn() {
-    const { setUser } = useAuth();
+    const { user, setUser } = useAuth();
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -20,6 +20,13 @@ function LogIn() {
     const [loading, setLoading] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
+    useEffect(() => {
+    if(user){
+        navigate('/home');
+    }
+}, [user, navigate]);
+     
+    
     async function handleSubmit(event) {
         event.preventDefault();
 
