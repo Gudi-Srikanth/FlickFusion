@@ -21,10 +21,10 @@ function LogIn() {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     useEffect(() => {
-    if(user){
-        navigate('/home');
-    }
-}, [user, navigate]);
+        if(user){
+            navigate('/home');
+         }
+    }, [user, navigate]);
      
     
     async function handleSubmit(event) {

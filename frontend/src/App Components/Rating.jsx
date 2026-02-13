@@ -17,7 +17,12 @@ const Rating = ({ movieId, setRating }) => {
 
         if (response.data?.rating !== undefined) {
           setUserRating(response.data.rating);
+          const userGivenRating = response.data.rating;
+          if(userGivenRating!=null){
           setTextAboveRating(`You rated this movie: ${response.data.rating} ⭐️`);
+          }else{
+          setTextAboveRating(`You haven't rated this movie yet!`);
+          }
         }
       } catch (error) {
         console.error("Error fetching rating:", error);
