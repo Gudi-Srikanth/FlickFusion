@@ -5,6 +5,7 @@ import './SearchResults.css';
 import Header from './Header';
 import Footer from './Footer';
 import Error from './Error';
+import SkeletonLoader from './SkeletonLoader';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -54,7 +55,7 @@ const SearchResults = () => {
       return <Error message="Please enter a search query." />;
     }
     if (loading) {
-      return <Error message="Loading..." />;
+      return <SkeletonLoader variant="grid" count={8} />;
     }
     if (error) {
       return <Error message={error} />;

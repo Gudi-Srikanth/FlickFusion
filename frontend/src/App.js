@@ -8,11 +8,12 @@ import EditProfile from './App Components/EditProfile';
 import Movie from './App Components/Movie';
 import User from './App Components/User'
 import { useAuth } from './App Components/AuthContext';
+import SkeletonLoader from './App Components/SkeletonLoader';
 
 function App() {
   const { user, authChecked } = useAuth();
 
-  if (!authChecked) return <div>Loading...</div>;
+  if (!authChecked) return <SkeletonLoader variant="profile" /> ;
 
   return (
     <Routes>

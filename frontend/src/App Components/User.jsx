@@ -5,6 +5,7 @@ import { useAuth } from './AuthContext';
 import Header from './Header';
 import Footer from './Footer';
 import './User.css';
+import SkeletonLoader from './SkeletonLoader';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -16,11 +17,13 @@ const User = () => {
   const [followingCount, setFollowingCount] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const isOwnProfile = currentUser && currentUser.user_id === parseInt(userId);
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setLoading(true);
       try {
         const requests = [
           axios.get(`${API_BASE_URL}/user/${userId}`),
@@ -46,6 +49,8 @@ const User = () => {
         }
       } catch (err) {
         console.error("Failed to load user data", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -53,14 +58,28 @@ const User = () => {
   }, [userId, isOwnProfile]);
 
   const handleFollow = async () => {
+    if(isFollowing===true){
+      //Unfollow
+      try {
+      await axios.post(`${API_BASE_URL}/user/${userId}/unfollow`, {}, { withCredentials: true });
+      setIsFollowing(false);
+      setFollowersCount(prev => prev - 1);
+    } catch (err) {
+      console.error("Unfollow failed", err);
+    }
+    }
+    else{
+      //follow
     try {
       await axios.post(`${API_BASE_URL}/user/${userId}/follow`, {}, { withCredentials: true });
       setIsFollowing(true);
       setFollowersCount(prev => prev + 1);
     } catch (err) {
       console.error("Follow failed", err);
-    }
+    }}
   };
+
+  if (loading) return <SkeletonLoader variant="profile" />;
 
   return (
     <>
@@ -78,7 +97,7 @@ const User = () => {
               !isFollowing ? (
                 <button className="follow-btn" onClick={handleFollow}>Follow</button>
               ) : (
-                <button className="followed-btn">Following</button>
+                <button className="followed-btn" onClick={handleFollow}>Unfollow</button>
               )
             )}
           </div>

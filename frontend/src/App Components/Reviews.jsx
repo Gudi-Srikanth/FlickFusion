@@ -3,6 +3,7 @@ import axios from 'axios';
 import AddReview from './AddReview';
 import './Reviews.css';
 import { useNavigate } from 'react-router-dom';
+import SkeletonLoader from './SkeletonLoader';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -10,10 +11,12 @@ const Reviews = ({ movieId }) => {
   const [hasReviewed, setHasReviewed] = useState(false);
   const [userReview, setUserReview] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
+    setLoading(true);
     try {
       const [userRes, allRes] = await Promise.all([
         axios.get(`${API_BASE_URL}/movie/${movieId}/user-review`, { withCredentials: true }),
@@ -25,6 +28,8 @@ const Reviews = ({ movieId }) => {
     } catch (err) {
       console.error("Review fetch error:", err.response || err);
       setError("Failed to fetch reviews");
+    } finally {
+      setLoading(false);
     }
   }, [movieId]);
 
@@ -124,6 +129,7 @@ const Reviews = ({ movieId }) => {
   };
 
   if (error) return <div className="error-message">{error}</div>;
+  if (loading) return <SkeletonLoader variant="review" count={3} />;
 
   return (
     <div className="reviews-section">

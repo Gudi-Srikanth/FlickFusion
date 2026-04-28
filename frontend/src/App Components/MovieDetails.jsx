@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MovieDetails.css';
+import SkeletonLoader from './SkeletonLoader';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const MovieDetails = ({ movieId }) => {
   const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`${API_BASE_URL}/movie/${movieId}`, {
           withCredentials: true, 
@@ -23,6 +26,8 @@ const MovieDetails = ({ movieId }) => {
         setMovie(res.data.movie);
       } catch (err) {
         setError(err.message || "An unexpected error occurred");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -30,7 +35,7 @@ const MovieDetails = ({ movieId }) => {
   }, [movieId]);
 
   if (error) return <div className="error-message">{error}</div>;
-  if (!movie) return <div>Loading movie...</div>;
+  if (loading) return <SkeletonLoader variant="details" />;
 
   const backgroundImage = movie.backdrop_path
     ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`

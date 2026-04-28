@@ -7,13 +7,14 @@ import Error from "./Error";
 import MovieDetails from "./MovieDetails";
 import Reviews from "./Reviews";
 import Rating from "./Rating";
+import SkeletonLoader from "./SkeletonLoader";
 import "./Movie.css";
 
 const Movie = () => {
   const { movieId } = useParams();
   const { user, authChecked } = useAuth();
 
-  if (!authChecked) return <div>Loading authentication...</div>;
+  if (!authChecked) return <SkeletonLoader variant="details" />;
   if (!user) return <Error message="Please log in to view this page." />;
 
   return (

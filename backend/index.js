@@ -690,7 +690,7 @@ app.get('/user/:userId/is-following', async (req, res) => {
 app.post('/user/:userId/follow', async (req, res) => {
   const currentUserId = req.user?.user_id || req.user?.id;
   const { userId } = req.params;
-
+  console.log(req," ",currentUserId,"H ", userId);
   try {
     await db.query(
       'INSERT INTO followers (follower_id, following_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
@@ -700,6 +700,23 @@ app.post('/user/:userId/follow', async (req, res) => {
   } catch (err) {
     console.error("Follow error", err);
     res.status(500).json({ success: false, error: "Failed to follow user" });
+  }
+});
+
+//POST Unfollow user
+app.post('/user/:userId/unfollow', async (req, res) => {
+  const currentUserId = req.user?.user_id || req.user?.id;
+  const { userId } = req.params;
+  console.log(currentUserId," ", userId);
+  try {
+    await db.query(
+      'DELETE FROM followers WHERE follower_id= $1 AND following_id=$2',
+      [currentUserId, userId]
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Unfllow error", err);
+    res.status(500).json({ success: false, error: "Failed to unfollow user" });
   }
 });
 
